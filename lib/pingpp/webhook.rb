@@ -45,7 +45,7 @@ module Pingpp
     # see actionpack-4.2.7.1/lib/action_dispatch/http/request.rb#251
     def self.extract_raw_data(request)
       body = request.env['rack.input']
-      raw_post_body = body.read(request.content_length)
+      raw_post_body = body.read(request.content_length.to_i)
       body.rewind if body.respond_to?(:rewind)
       raw_post_body
     end
