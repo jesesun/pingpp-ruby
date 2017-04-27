@@ -33,11 +33,28 @@ Pingpp.api_key = "YOUR-KEY"
 Pingpp.private_key_path = '/path/to/your_rsa_private_key.pem'
 ```
 
-### 设置 Ping++ 公钥
-公钥请登录 [Ping++ Dashboard](https://dashboard.pingxx.com) 获取  
+### 验证 Webhooks
+
+#### 设置 Ping++ 公钥
+
+公钥请登录 [Ping++ Dashboard](https://dashboard.pingxx.com) 获取。
+
+此公钥用于webhooks回调时，验证请求对象的正确性。
+
 设置你的 Ping++ 公钥路径
+
 ``` ruby
 Pingpp.pub_key_path = "/path/to/pingpp_rsa_public_key.pem"
+```
+
+#### 验证
+
+支持基于Rack的web框架,如Rails,Sinatra等.
+```ruby
+Pingpp::Webhook.verify?(request) # 验证回调的请求对象的正确性
+# 解析回调内容
+JSON.parse(request.raw_post) # Ruby on Rails
+JSON.parse(request.body.read) # Sinatra
 ```
 
 ### 支付
@@ -52,12 +69,6 @@ Pingpp::Charge.create(
   :subject   => "Your Subject",
   :body      => "Your Body"
 )
-```
-
-### 验证 Webhooks
-```ruby
-Pingpp::Webhook.verify?(request) # 验证回调
-JSON.parse(request.raw_post) # 解析回调内容（Ruby on Rails）
 ```
 
 ### 查询
